@@ -2,14 +2,15 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://192.168.___.___');
+const settings = require('./settings');
+const client = mqtt.connect(settings.MQTTHost);
 
 const sqlConnection = mysql.createConnection({
-    host     : '192.168.___.___',
-    port     : '3307',
-    user     : '___',
-    password : '___',
-    database : 'SmartHome'
+    host     : settings.SQLHost,
+    port     : settings.SQLPort,
+    user     : settings.SQLUser,
+    password : settings.SQLUserPassword,
+    database : settings.SQLDatabase
 });
 
 sqlConnection.connect((err) => {
