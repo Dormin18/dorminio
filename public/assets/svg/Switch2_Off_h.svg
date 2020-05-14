@@ -1,0 +1,12 @@
+<svg id="Komponente_6_2" data-name="Komponente 6 – 2" xmlns="http://www.w3.org/2000/svg" width="40" height="60" viewBox="0 0 40 60">
+  <g id="Rechteck_4" data-name="Rechteck 4" fill="red" stroke="#909090" stroke-width="5">
+    <rect width="40" height="60" rx="10" stroke="none"/>
+    <rect x="2.5" y="2.5" width="35" height="55" rx="7.5" fill="none"/>
+  </g>
+  <g id="Rechteck_5" data-name="Rechteck 5" transform="translate(7 39)" fill="#fff" stroke="#707070" stroke-width="2">
+    <rect width="26" height="14" rx="3" stroke="none"/>
+    <rect x="1" y="1" width="24" height="12" rx="2" fill="none"/>
+  </g>
+  <line id="Linie_1" data-name="Linie 1" x2="17" transform="translate(11.5 43.5)" fill="none" stroke="#707070" stroke-width="1"/>
+  <line id="Linie_2" data-name="Linie 2" x2="17" transform="translate(11.5 48.5)" fill="none" stroke="#707070" stroke-width="1"/>
+</svg>

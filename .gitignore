@@ -1,3 +1,5 @@
 private.txt
 settings.js
 node_modules
+public/assets/fonts
+controller/MQTTtasmota.js
