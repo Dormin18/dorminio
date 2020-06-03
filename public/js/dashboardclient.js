@@ -34,31 +34,105 @@ $(document).ready(function() {
         things[index].state = statusText;
         $.post('/stateChange', {id: thingId, state: statusText}, function( data ) {
             things[index] = data;
+            updateThingView(thingId);
         }, "json");
-        updateThingView(thingId);
-        if(index == things.length-1) createThingTile(6);
     });
+
+    $(document).on('click', '.title', function() {
+        var tileId = $(this).attr('id');
+        var tileSplit = tileId.split('_');
+        var thingId = tileSplit[0].slice(1);
+        var chartId = tileSplit[0] + '_Chart';
+        var index = 0;
+        var chartData;
+        for(var i = 0; i < things.length; i++) {
+            if(things[i].id == thingId) index=i;
+        }
+        if($(this).parent().hasClass('thingLarge')) {
+            $(this).parent().children('.chartOn').removeClass('chartOn').addClass('chartOff').hide();
+            $(this).parent().removeClass('thingLarge').addClass('thingNormal');
+        } else {
+            $(this).parent().removeClass('thingNormal').addClass('thingLarge');
+            $(this).parent().children('.chartOff').removeClass('chartOff').addClass('chartOn').show();
+            var chartObject = $(this).parent().children('.chartOn').children('CANVAS');
+            var chart = new Chart(chartObject, {
+                // The type of chart we want to create
+                type: 'line',            
+                // The data for our dataset
+                data: {      
+                    labels: things[index].dataChart.chartTimes,         
+                    datasets: [{
+                        label: 'Leistung',
+                        backgroundColor: '#DDDDFF60',
+                        borderColor: 'rgb(95, 95, 255)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        data: things[index].dataChart.chartPower
+                    },
+                    {
+                        label: 'Gesamt',
+                        backgroundColor: '#DDFFDD60',
+                        borderColor: 'rgb(95, 255, 95)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        data: things[index].dataChart.chartTotal
+                    },
+                    {
+                        label: 'Gestern',
+                        backgroundColor: '#FFDDDD60',
+                        borderColor: 'rgb(255, 95, 95)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        data: things[index].dataChart.chartPrev
+                    }]
+                },
+            
+                // Configuration options go here
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });           
+        }    
+    })
+    $(document).on('click', '.chartScale', function() {
+        var scale = parseInt($(this).html());
+
+    })
 });
 
 function updateThingView(id) {
     var index = 0;
+    var iconColor = 'csnone';
     for(var i = 0; i < things.length; i++) {
         if(things[i].id == id) index=i;
     }
     var thingName = 'T' + id + '_Tile';
     var tileTag = $('#'+thingName);
     var switchTag = tileTag.children('.toggle');
-    if(things[index].state == 'On') {
+    if(things[index].state.toUpperCase() == 'ON') {
         switchTag.children('INPUT').prop('checked', true);
+        iconColor = things[index].consumerStateColor;
     } else {
         switchTag.children('INPUT').prop('checked', false);
     }
     tileTag.children('IMG').attr('src', things[index].icon);
-    tileTag.children('.title').html(things[index].name);
-    tileTag.children('.l1').html('Power: <strong>' + things[index].power +' W</strong>');
-    tileTag.children('.l2').html('Status: <strong>' + things[index].state +'</strong>');
-    tileTag.children('IMG').removeClass().addClass('thing ' + things[index].consumerStateColor);
-    tileTag.children('.l1').children('STRONG').text(things[index].power + ' W');        
+    tileTag.children('.title').html(things[index].title);
+    tileTag.children('.i1').html(things[index].infoText1);
+    tileTag.children('.i2').html(things[index].infoText2);
+    tileTag.children('IMG').removeClass().addClass('thing ' + iconColor);
+    tileTag.children('.chartOn').children('.i3').html('Verbrauch gesamt: ' + things[index].totalPower);
+    tileTag.children('.chartOn').children('.i4').html('Verbrauch gestern: ' + things[index].prevDayPower);
+    var html = '<span id="chartScale6" class="chartScale">6</span>';
+    html += '<span id="chartScale12" class="chartScale">12</span>';
+    html += '<span id="chartScale24" class="chartScale">24</span>';
+    html += '<span id="chartScale48" class="chartScale">48<span>';
+    tileTag.children('.chartOn').children('.i5').html(html);
 }
 
 function updateAllThingsView() {
@@ -77,22 +151,29 @@ function updateThingData(id) {
     }, 'json');
 }
 
-function createThingTile(id) {
-    var htmlString = '<div id="T' + id + '_Tile" class="thing">';
+function createThingTile(id, col) {
+    var htmlString = '<div id="T' + id + '_Tile" class="thing thingNormal">';
     htmlString += '<span id="T' + id + '_Title" class="title">Thing Title</span>';
-    htmlString += '<span id="T' + id + '_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span>';
-    htmlString += '<span id="T' + id + '_SubTitle2" class="sub l2">Status: <strong>On</strong></span>';
+    htmlString += '<span id="T' + id + '_SubTitle1" class="Info1 i1">Power: <strong>0 W</strong></span>';
+    htmlString += '<span id="T' + id + '_SubTitle2" class="Info1 i2">Status: <strong>On</strong></span>';
     htmlString += '<img id="T' + id + '_Img" class="thing csnone" src="assets/svg/sym_lamp.svg">';
     htmlString += '<label id="T' + id + '_Switch" class="toggle">';
     htmlString += '<input id="T' + id + '_Checkbox" type="checkbox">';
     htmlString += '<span class="roundswitch"></span>';
-    htmlString += '</label>';
+    htmlString += '</label>'; 
+    htmlString += '<div class="chartOff">';
+    htmlString += '<span id="T' + id + '_Info3" class="Info2 i3"></span>';
+    htmlString += '<span id="T' + id + '_Info4" class="Info2 i4"></span>';
+    htmlString += '<span id="T' + id + '_Info4" class="Info2 i5"></span>';
+    htmlString += '<canvas id="T' + id + '_Chart" width="200" height="100" class="chart"></canvas>';
     htmlString += '</div>';
-    $('body').append(htmlString);
+    htmlString += '</div>';
+    $('#tileCol' + col).append(htmlString);
 }
 
 function createAllTiles() {
     for(var i = 0; i < things.length; i++) {
-        createThingTile(things[i].id);
+        var col = i % 3;
+        createThingTile(things[i].id, col);
     }
 }

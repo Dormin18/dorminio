@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <title>Auf dem Raspberry Pi</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link type="text/css" rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="grid">
+        <div id="T1_Tile" class="thing thingNormal">
+            <span id="T1_Title" class="title">Bewaesserung 2 [54]</span>
+            <span id="T1_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span>
+            <span id="T1_SubTitle2" class="sub l2">- leer -</span>
+            <img id="T1_Img" class="thing csnone" src="assets/svg/sym_lamp.svg">
+            <label id="T1_Switch" class="toggle">
+                <input id="T1_Checkbox" type="checkbox">
+                <span class="roundswitch"></span>
+            </label>
+            <div class="chart"><canvas id="T' + id + '_Chart" width="200" height="100" class="chart"></canvas></div>
+        </div>
+        <div id="T2_Tile" class="thing thingLarge"><span id="T2_Title" class="title">Marie Fernseher [43]</span><span
+                id="T2_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T2_SubTitle2"
+                class="sub l2">V-Status: <strong>Ausgeschaltet</strong></span><img id="T2_Img" class="thing csnone"
+                src="assets/svg/sym_tv.svg"><label id="T2_Switch" class="toggle"><input id="T2_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+                <div class="chart"><canvas id="T' + id + '_Chart" width="200" height="100" class="chart"></canvas></div>
+        </div>
+        <div id="T3_Tile" class="thing thingNormal"><span id="T3_Title" class="title">TV Wohnzimmer [50]</span><span
+                id="T3_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T3_SubTitle2"
+                class="sub l2">V-Status: <strong>Ausgeschaltet</strong></span><img id="T3_Img" class="thing csnone"
+                src="assets/svg/sym_tv.svg"><label id="T3_Switch" class="toggle"><input id="T3_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+        <div id="T4_Tile" class="thing thingNormal"><span id="T4_Title" class="title">Bewaesserung 1 [53]</span><span
+                id="T4_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T4_SubTitle2"
+                class="sub l2">- leer -</span><img id="T4_Img" class="thing csnone"
+                src="assets/svg/sym_power.svg"><label id="T4_Switch" class="toggle"><input id="T4_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+        <div id="T5_Tile" class="thing thingNormal"><span id="T5_Title" class="title">Waschmaschine [58]</span><span
+                id="T5_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T5_SubTitle2"
+                class="sub l2">- leer -</span><img id="T5_Img" class="thing csnone" src="assets/svg/sym_wash.svg"><label
+                id="T5_Switch" class="toggle"><input id="T5_Checkbox" type="checkbox"><span
+                    class="roundswitch"></span></label>
+        </div>
+        <div id="T6_Tile" class="thing thingNormal"><span id="T6_Title" class="title">Spuelmaschine [55]</span><span
+                id="T6_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T6_SubTitle2"
+                class="sub l2">V-Status: <strong>ausgeschaltet</strong></span><img id="T6_Img" class="thing cswhite"
+                src="assets/svg/sym_wash.svg"><label id="T6_Switch" class="toggle"><input id="T6_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+        <div id="T7_Tile" class="thing thingNormal"><span id="T7_Title" class="title">Kuehlschrank EG [57]</span><span
+                id="T7_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T7_SubTitle2"
+                class="sub l2">V-Status: <strong>ausgeschaltet</strong></span><img id="T7_Img" class="thing csnone"
+                src="assets/svg/sym_power.svg"><label id="T7_Switch" class="toggle"><input id="T7_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+        <div id="T8_Tile" class="thing thingNormal"><span id="T8_Title" class="title">Trockner [52]</span><span
+                id="T8_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T8_SubTitle2"
+                class="sub l2">V-Status: <strong>ausgeschaltet</strong></span><img id="T8_Img" class="thing csnone"
+                src="assets/svg/sym_wash.svg"><label id="T8_Switch" class="toggle"><input id="T8_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+        <div id="T9_Tile" class="thing thingLarge"><span id="T9_Title" class="title">Lampe Wohnz. [44]</span><span
+                id="T9_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T9_SubTitle2"
+                class="sub l2">- leer -</span><img id="T9_Img" class="thing csnone" src="assets/svg/sym_lamp.svg"><label
+                id="T9_Switch" class="toggle"><input id="T9_Checkbox" type="checkbox"><span
+                    class="roundswitch"></span></label>
+        </div>
+        <div id="T10_Tile" class="thing thingNormal"><span id="T10_Title" class="title">Amelie Echo [42]</span><span
+                id="T10_SubTitle1" class="sub l1">Power: <strong>0 W</strong></span><span id="T10_SubTitle2"
+                class="sub l2">- leer -</span><img id="T10_Img" class="thing csnone"
+                src="assets/svg/sym_power.svg"><label id="T10_Switch" class="toggle"><input id="T10_Checkbox"
+                    type="checkbox"><span class="roundswitch"></span></label>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
