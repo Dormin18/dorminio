@@ -51,11 +51,14 @@ $(document).ready(function() {
         if($(this).parent().hasClass('thingLarge')) {
             $(this).parent().children('.chartOn').removeClass('chartOn').addClass('chartOff').hide();
             $(this).parent().removeClass('thingLarge').addClass('thingNormal');
+            $(this).parent().children('.chartOn').children('CANVAS').remove();
         } else {
             $(this).parent().removeClass('thingNormal').addClass('thingLarge');
             $(this).parent().children('.chartOff').removeClass('chartOff').addClass('chartOn').show();
+            var canvas = $('<canvas id="T' + thingId + '_Chart" width="200" height="100" class="chart"></canvas>');
+            $(this).parent().children('.chartOn').append(canvas);
             var chartObject = $(this).parent().children('.chartOn').children('CANVAS');
-            var chart = new Chart(chartObject, {
+            var chart = new Chart(chartObject, {    
                 // The type of chart we want to create
                 type: 'line',            
                 // The data for our dataset
@@ -101,7 +104,72 @@ $(document).ready(function() {
         }    
     })
     $(document).on('click', '.chartScale', function() {
-        var scale = parseInt($(this).html());
+        var tileId = $(this).parent().parent().parent().attr('id');
+        var tileSplit = tileId.split('_');
+        var thingId = tileSplit[0].slice(1);
+        var index = 0;
+        for(var i = 0; i < things.length; i++) {
+            if(things[i].id == thingId) index=i;
+        }
+        var scale = parseInt($(this).html()) * 60;
+        if(things[index].dataChart.chartTimes.length > scale) {
+            var labs = things[index].dataChart.chartTimes.slice(things[index].dataChart.chartTimes.length - scale);
+            var ds1 = things[index].dataChart.chartPower.slice(things[index].dataChart.chartPower.length - scale);
+            var ds2 = things[index].dataChart.chartTotal.slice(things[index].dataChart.chartTotal.length - scale);
+            var ds3 = things[index].dataChart.chartPrev.slice(things[index].dataChart.chartPrev.length - scale);            
+        } else {
+            var labs = things[index].dataChart.chartTimes;
+            var ds1 = things[index].dataChart.chartPower;
+            var ds2 = things[index].dataChart.chartTotal;
+            var ds3 = things[index].dataChart.chartPrev;               
+        }
+        $(this).parent().parent().children('CANVAS').remove();        
+        var canvas = $('<canvas id="T' + thingId + '_Chart" width="200" height="100" class="chart"></canvas>');
+        $(this).parent().parent().append(canvas);
+        var chartObject = $(this).parent().parent().children('CANVAS');
+        var chart = new Chart(chartObject, {    
+            // The type of chart we want to create
+            type: 'line',            
+            // The data for our dataset
+            data: {      
+                labels: labs,        
+                datasets: [{
+                    label: 'Leistung',
+                    backgroundColor: '#DDDDFF60',
+                    borderColor: 'rgb(95, 95, 255)',
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    data: ds1
+                },
+                {
+                    label: 'Gesamt',
+                    backgroundColor: '#DDFFDD60',
+                    borderColor: 'rgb(95, 255, 95)',
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    data: ds2
+                },
+                {
+                    label: 'Gestern',
+                    backgroundColor: '#FFDDDD60',
+                    borderColor: 'rgb(255, 95, 95)',
+                    borderWidth: 1,
+                    pointRadius: 0,
+                    data: ds3
+                }]
+            },
+        
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });           
 
     })
 });
@@ -165,7 +233,7 @@ function createThingTile(id, col) {
     htmlString += '<span id="T' + id + '_Info3" class="Info2 i3"></span>';
     htmlString += '<span id="T' + id + '_Info4" class="Info2 i4"></span>';
     htmlString += '<span id="T' + id + '_Info4" class="Info2 i5"></span>';
-    htmlString += '<canvas id="T' + id + '_Chart" width="200" height="100" class="chart"></canvas>';
+    //htmlString += '<canvas id="T' + id + '_Chart" width="200" height="100" class="chart"></canvas>';
     htmlString += '</div>';
     htmlString += '</div>';
     $('#tileCol' + col).append(htmlString);
